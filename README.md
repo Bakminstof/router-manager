@@ -8,12 +8,19 @@ __APP.ROUTER.AUTH_TOKEN__ токен базовой авторизации (бе
 
 Сборка и запуск контейнера
 ```cmd
-@set "APP_PORT=30000"
-@set "ENV_FILE=/src/env/prod.env"
+@SET "APP_HOST=127.0.0.1"
+@SET "APP_PORT=30000"
 
-docker build -t router-manager:latest .
+@SET "APP_NAME=router-manager"
+@SET "APP_TAG=latest"
 
-docker run  -p %APP_PORT%:12000 -e ENV_FILE=%ENV_FILE% --restart=always -d router-manager:latest
+@SET "APP_IMAGE=%APP_NAME%:%APP_TAG%"
+
+@SET "ENV_FILE=/src/env/prod.env"
+
+docker build -t %APP_IMAGE% .
+
+docker run -p %APP_HOST%:%APP_PORT%:12000 -e ENV_FILE=%ENV_FILE% --name %APP_NAME% --restart=always -d %APP_IMAGE%
 ```
 
 Endpoints:
